@@ -28,5 +28,11 @@
 			<username>${env.OSSRH_USERNAME}</username>
 			<password>${env.OSSRH_PASSWORD}</password>
 		</server>
+		<server>
+			<id>sonatype-oss-nexus-snapshots</id>
+			<!-- Load credentials from env variables -->
+			<username>${env.OSSRH_USERNAME}</username>
+			<password>${env.OSSRH_PASSWORD}</password>
+		</server>
 	</servers>
 </settings>
