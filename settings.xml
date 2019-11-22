@@ -8,7 +8,7 @@
 	<profiles>
 		<!-- GPG settings -->
 		<profile>
-			<id>ossrh</id>
+			<id>sonatype-oss-nexus-staging</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -23,7 +23,7 @@
 	<servers>
 		<!-- Sonatype OSSRH credentials -->
 		<server>
-			<id>ossrh</id>
+			<id>sonatype-oss-nexus-staging</id>
 			<!-- Load credentials from env variables -->
 			<username>${env.OSSRH_USERNAME}</username>
 			<password>${env.OSSRH_PASSWORD}</password>
