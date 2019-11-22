@@ -14,5 +14,4 @@ echo ${GPG_PRIVATE_KEY} | base64 --decode | gpg --batch --import
 cd $GITHUB_WORKSPACE
 mvn clean deploy \
 	--batch-mode \
-	--activate-profiles deploy \
 	--settings /settings.xml
