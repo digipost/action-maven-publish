@@ -15,5 +15,5 @@ cd $GITHUB_WORKSPACE
 mvn versions:set "-DnewVersion=$RELEASE_VERSION"
 mvn clean deploy \
 	--batch-mode \
-	--activate-profiles release \
+	--activate-profiles build-sources-and-javadoc,sign-artifacts,release \
 	--settings /settings.xml
