@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# https://github.com/keybase/keybase-issues/issues/2798
+export GPG_TTY=$(tty)
 
 # Make sure the required env variables are set
 [ -z "$GPG_PRIVATE_KEY" ] && echo 'Missing "gpg_private_key" input variable' && exit 1;
