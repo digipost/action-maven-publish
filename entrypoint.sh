@@ -16,6 +16,6 @@ echo ${GPG_PRIVATE_KEY} | base64 --decode | gpg --batch --import
 cd $GITHUB_WORKSPACE
 mvn versions:set -DnewVersion=$RELEASE_VERSION
 mvn clean package \
-	--batch-mode \
+	-B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
 	--activate-profiles build-sources-and-javadoc,sign-artifacts \
 	--settings /settings.xml
