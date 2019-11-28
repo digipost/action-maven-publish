@@ -1,4 +1,4 @@
-FROM maven:3.6-jdk-11
+FROM maven:3.6.2-jdk-11
 
 # Copy Bash script and Maven settings
 COPY ./entrypoint.sh /entrypoint.sh

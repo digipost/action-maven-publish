@@ -14,8 +14,9 @@ echo ${GPG_PRIVATE_KEY} | base64 --decode | gpg --batch --import
 
 # Deploy to OSSRH, which will automatically release to Central Repository
 cd $GITHUB_WORKSPACE
-mvn versions:set -DnewVersion=$RELEASE_VERSION
+mvn --no-transfer-progress versions:set -DnewVersion=$RELEASE_VERSION
 mvn clean package \
-	-B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
+	--batch-mode \
+	--no-transfer-progress \
 	--activate-profiles build-sources-and-javadoc,sign-artifacts \
 	--settings /settings.xml
