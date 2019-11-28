@@ -15,6 +15,9 @@ inputs:
   ossrh_password:
     description: Password for Sonatype OSSRH (OSS Repository Hosting)
     required: true
+  release_version:
+    description: Version to set in pom before deploy
+    required: true
 
 runs:
   using: docker
@@ -24,6 +27,7 @@ runs:
     GPG_PASSPHRASE: ${{ inputs.gpg_passphrase }}
     OSSRH_USERNAME: ${{ inputs.ossrh_username }}
     OSSRH_PASSWORD: ${{ inputs.ossrh_password }}
+    RELEASE_VERSION: ${{ inputs.release_version }}
 
 branding:
   icon: upload-cloud

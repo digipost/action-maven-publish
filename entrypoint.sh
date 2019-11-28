@@ -7,6 +7,7 @@ export GPG_TTY=$(tty)
 [ -z "$GPG_PASSPHRASE" ] && echo 'Missing "gpg_passphrase" input variable' && exit 1;
 [ -z "$OSSRH_USERNAME" ] && echo 'Missing "ossrh_username" input variable' && exit 1;
 [ -z "$OSSRH_PASSWORD" ] && echo 'Missing "ossrh_password" input variable' && exit 1;
+[ -z "$RELEASE_VERSION" ] && echo 'Missing "release_version" input variable' && exit 1;
 
 # Import GPG key from env variable into keychain
 # Env variable is base64 encoded -> Decode it before import
