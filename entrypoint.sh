@@ -16,8 +16,8 @@ echo ${GPG_PRIVATE_KEY} | base64 --decode | gpg --batch --import
 # Deploy to OSSRH, which will automatically release to Central Repository
 cd $GITHUB_WORKSPACE
 mvn --no-transfer-progress versions:set -DnewVersion=$RELEASE_VERSION
-mvn clean package \
+mvn clean deploy \
 	--batch-mode \
 	--no-transfer-progress \
-	--activate-profiles build-sources-and-javadoc,sign-artifacts \
+	--activate-profiles build-sources-and-javadoc,sign-artifacts,release \
 	--settings /settings.xml
