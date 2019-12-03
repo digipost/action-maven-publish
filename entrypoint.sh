@@ -3,17 +3,20 @@
 export GPG_TTY=$(tty)
 
 # Make sure the required env variables are set
-[ -z "$GPG_PRIVATE_KEY" ] && echo 'Missing "gpg_private_key" input variable' && exit 1;
-[ -z "$GPG_PASSPHRASE" ] && echo 'Missing "gpg_passphrase" input variable' && exit 1;
-[ -z "$OSSRH_USERNAME" ] && echo 'Missing "ossrh_username" input variable' && exit 1;
-[ -z "$OSSRH_PASSWORD" ] && echo 'Missing "ossrh_password" input variable' && exit 1;
+[ -z "$SONATYPE_SECRETS" ] && echo 'Missing "sonatype_secrets" input variable' && exit 1;
 [ -z "$RELEASE_VERSION" ] && echo 'Missing "release_version" input variable' && exit 1;
+
+IFS=, read username password passphrase private_key <<< $(echo $SONATYPE_SECRETS | base64 -d)
+
+export GPG_PASSPHRASE=$passphrase
+export OSSRH_USERNAME=$username
+export OSSRH_PASSWORD=$password
 
 # Import GPG key from env variable into keychain
 # Env variable is base64 encoded -> Decode it before import
-echo ${GPG_PRIVATE_KEY} | base64 --decode | gpg --batch --import
+echo ${private_key} | base64 --decode | gpg --batch --import
 
-# Deploy to OSSRH, which will automatically release to Central Repository
+## Deploy to OSSRH, which will automatically release to Central Repository
 cd $GITHUB_WORKSPACE
 mvn --no-transfer-progress versions:set -DnewVersion=$RELEASE_VERSION
 mvn clean deploy \
