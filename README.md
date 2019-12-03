@@ -2,24 +2,18 @@
 
 **GitHub Action for automatically publishing a Maven package to the Central Repository**
 
-It's recommended to publish using the [Nexus Staging Maven Plugin](https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin), which greatly simplifies the process.
+It's recommended to publish using the [Digipost open super pom](https://github.com/digipost/digipost-open-super-pom/tree/master), which greatly simplifies the process.
 
 ## Requirements
 
-The following instructions assume that you've already configured your repository for deployment to the Central Repository using the Nexus Staging Maven Plugin. If you haven't, you can read about how to do this [here](https://central.sonatype.org/pages/apache-maven.html#performing-a-release-deployment).
-
-In the plugin's configuration, you will probably want to set the following option to automatically deploy to the Central Repository after successfully staging on Nexus:
+Add the `Digipost open super pom` to your project
 
 ```xml
-<plugin>
-  <groupId>org.sonatype.plugins</groupId>
-  <artifactId>nexus-staging-maven-plugin</artifactId>
-  <!-- ... -->
-  <configuration>
-    <!-- ... -->
-    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-  </configuration>
-</plugin>
+<parent>
+    <groupId>no.digipost</groupId>
+    <artifactId>digipost-open-super-pom</artifactId>
+    <version>6</version>
+</parent>
 ```
 
 ## Usage
@@ -28,12 +22,12 @@ In the plugin's configuration, you will probably want to set the following optio
 
 In your project's GitHub repository, go to Settings → Secrets. On this page, set the following variables:
 
-- `gpg_private_key`: The GPG base64-encoded private key you use to sign the published artifacts:
-  - Run `gpg --list-secret-keys` and locate the key you'd like to use. Copy its ID
-  - Export and encode the key with `gpg -a --export-secret-keys KEY_ID | base64` (and replace `KEY_ID` with the ID you copied)
-- `gpg_passphrase`: The passphrase for the exported GPG key
-- `ossrh_username`: Your Sonatype OSSRH username (not the email address!)
-- `ossrh_password`: Your Sonatype OSSRH password
+- `release_version`: The version you want the project to be released with
+- `sonatype_secrets`: a comma separated string that consists of `sonatype_username,sonatype_password,key_password,key_private`
+    - `sonatype_username` is your projects username at Sonatype
+    - `sonatype_password` is your projects password at Sonatype
+    - `key_password` is the password of you gpg key to sign the deployed artfacts with. 
+    - `key_private` is the actual private key encoded as base64 sign the deployed artfacts with.
 
 These secrets will be passed as environment variables into the action, allowing it to do the deployment for you.
 
@@ -44,29 +38,26 @@ Create a GitHub workflow file (e.g. `.github/workflows/release.yml`) in your rep
 ```yml
 name: Release
 
-# Run workflow only on commits to `master`
 on:
   push:
-    branches:
-      - master
-
+    tags:
+    - '*'
 jobs:
   release:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
-
+      - name: Set release version
+        run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
       - name: Release to Central Repository
-        uses: samuelmeuli/action-maven-publish@master
+        uses: digipost/action-maven-publish@master
         with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          ossrh_username: ${{ secrets.ossrh_username }}
-          ossrh_password: ${{ secrets.ossrh_password }}
+          sonatype_secrets: ${{ secrets.sonatype_secrets }}
+          release_version: ${{ env.RELEASE_VERSION }}
 ```
 
-This should be all the configuration you need. Every time you push to `master`, the action will be run. If your `pom.xml` file contains a non-snapshot version tag and all tests pass, your package will automatically be deployed to the Central Repository.
+This should be all the configuration you need. Every time you push a tag or make a release in github, the action will be run. If your `pom.xml` file contains a non-snapshot version tag and all tests pass, your package will automatically be deployed to the Central Repository.
 
 ## Development
 
