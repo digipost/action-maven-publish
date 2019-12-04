@@ -55,6 +55,7 @@ jobs:
         with:
           sonatype_secrets: ${{ secrets.sonatype_secrets }}
           release_version: ${{ env.RELEASE_VERSION }}
+          perform_release: true
 ```
 
 This should be all the configuration you need. Every time you push a tag or make a release in github, the action will be run. If your `pom.xml` file contains a non-snapshot version tag and all tests pass, your package will automatically be deployed to the Central Repository.

@@ -9,6 +9,10 @@ inputs:
   release_version:
     description: Version to set in pom before deploy
     required: true
+  perform_release:
+    description: Perform actual release
+    required: true
+    default: true
 
 runs:
   using: docker
@@ -16,6 +20,7 @@ runs:
   env:
     SONATYPE_SECRETS: ${{ inputs.sonatype_secrets }}
     RELEASE_VERSION: ${{ inputs.release_version }}
+    PERFORM_RELEASE: ${{ inputs.perform_release }}
 
 branding:
   icon: upload-cloud
