@@ -12,7 +12,7 @@ Add the `Digipost open super pom` to your project
 <parent>
     <groupId>no.digipost</groupId>
     <artifactId>digipost-open-super-pom</artifactId>
-    <version>6</version>
+    <version>7</version>
 </parent>
 ```
 
