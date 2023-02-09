@@ -19,7 +19,7 @@ if [ "$PERFORM_RELEASE" = "true" ];
     profiles="build-sources-and-javadoc,sign-artifacts,release";
   else
     target="sonatype-oss-nexus-snapshots"
-    profiles="build-sources-and-javadoc";
+    profiles="build-sources-and-javadoc,sonatype_snapshots";
 fi
 
 # Import GPG key from env variable into keychain
