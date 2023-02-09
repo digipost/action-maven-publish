@@ -18,6 +18,22 @@
 				<gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
 			</properties>
 		</profile>
+
+		<profile>
+			<id>sonatype_snapshots</id>
+			<repositories>
+				<repository>
+					<id>oss.sonatype.org-snapshot</id>
+					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+		</profile>
 	</profiles>
 
 	<servers>
