@@ -1,4 +1,4 @@
-FROM maven:3.8.7-amazoncorretto-17
+FROM maven:3.8.7-openjdk-18
 
 # Copy Bash script and Maven settings
 COPY ./entrypoint.sh /entrypoint.sh
