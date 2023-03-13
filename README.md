@@ -70,6 +70,11 @@ The Maven Publish GitHub Action works the following way:
 - Docker will spin up a new container with Java and Maven installed (see [`Dockerfile`](./Dockerfile)).
 - In the container, the [`entrypoint.sh`](./entrypoint.sh) script will be executed. It checks whether all required variables are defined, decodes the GPG private key and runs the Maven deploy command. Maven will use this repository's [`settings.xml`](./settings.xml) file, which instructs it to use the GPG passphrase and OSSRH credentials from the provided environment variables.
 
+
+### Release new version of action
+
+Push a tag with the new version, and also remember to replace major version tag (`v1`, `v2`, etc) to point to the latest release, which enables users to only specify the major version of the action.
+
 ### Contributing
 
 Suggestions and contributions are always welcome! Please discuss larger changes via issue before submitting a pull request.
