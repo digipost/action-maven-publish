@@ -15,11 +15,11 @@ export OSSRH_PASSWORD=$password
 
 if [ "$PERFORM_RELEASE" = "true" ];
   then
-    target="sonatype-oss-nexus-staging"
+    target="maven-central-releases"
     profiles="build-sources-and-javadoc,sign-artifacts,release";
   else
-    target="sonatype-oss-nexus-snapshots"
-    profiles="build-sources-and-javadoc,sonatype_snapshots";
+    target="maven-central-snapshots"
+    profiles="build-sources-and-javadoc,release";
 fi
 
 # Import GPG key from env variable into keychain
